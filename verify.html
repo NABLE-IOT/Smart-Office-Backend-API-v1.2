@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Verification Page</title>
+</head>
+
+<body>
+
+  <h1 style="background-color: #f68122;letter-spacing: 1px;
+  color: white; padding: 20px 30px; margin: 30px 30px; text-align:center" id="status"></h1>
+
+  <script>
+    // Extract the ID parameter from the URL
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get("id");
+    const domain = params.get("domain");
+
+    // Send a PUT request to verify the ID
+    fetch(`${domain}/api/v1/auth/verify/${id}`, { method: "PUT" })
+      .then((response) => {
+        if (response.ok) {
+          console.log(response.ok);
+
+          const statusElement = document.getElementById("status");
+          statusElement.textContent = "Verification Successfully.";
+          statusElement.style.background = "#f68122"
+        } else {
+          // If the verification fails, display an error message
+          const statusElement = document.getElementById("status");
+          statusElement.textContent = "Verification failed. Please try again later.";
+          statusElement.style.background = "#f4400c"
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        // If an error occurs, display an error message
+
+        const statusElement = document.getElementById("status");
+        statusElement.textContent = "An error occurred. Please try again later.";
+        statusElement.style.background = "#f4400c"
+      });
+  </script>
+</body>
+
+</html>
