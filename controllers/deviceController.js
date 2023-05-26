@@ -13,8 +13,15 @@ const getAllDeviceData = async (req, res, next) => {
 
 const createDevice = async (req, res, next) => {
   try {
-    const { deviceId, deviceName, deviceStatus, deviceData, type, location } =
-      req.body;
+    const {
+      deviceId,
+      deviceName,
+      deviceStatus,
+      deviceData,
+      type,
+      location,
+      parameter,
+    } = req.body;
 
     // check null values
     if (!deviceId || !deviceName || deviceStatus === "" || !type || !location) {
@@ -42,6 +49,7 @@ const createDevice = async (req, res, next) => {
       location: location,
       deviceData: deviceData,
       timestamp: Date.now(),
+      parameter: parameter,
     });
 
     //save device
@@ -56,7 +64,7 @@ const createDevice = async (req, res, next) => {
 
 const updateDevice = async (req, res, next) => {
   const { id } = req.params;
-  const { deviceStatus, deviceData, type, location } = req.body;
+  const { deviceStatus, deviceData, type, location, parameter } = req.body;
 
   try {
     // Read data from database
@@ -74,6 +82,7 @@ const updateDevice = async (req, res, next) => {
       type: type,
       location: location,
       deviceData: deviceData,
+      parameter: parameter,
     };
 
     //update database

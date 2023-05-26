@@ -109,12 +109,15 @@ const updateUser = async (req, res, next) => {
 
     // password bcrypt password
     const salt = await bcrypt.genSalt(10);
-    let pass = await bcrypt.hash(password, salt);
+    let pass;
 
-    //create user obj
+    if (password) {
+      pass = await bcrypt.hash(password, salt);
+    }
+
     const obj = {
-      userName: userName,
       password: pass,
+      userName: userName,
       role: role,
     };
 

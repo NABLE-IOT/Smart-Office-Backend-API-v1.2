@@ -35,6 +35,11 @@ const DeviceSchema = new mongoose.Schema({
     type: Number,
     require: true,
   },
+
+  parameter: {
+    type: String,
+    require: true,
+  },
 });
 
 export default mongoose.model("Devices", DeviceSchema);
