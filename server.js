@@ -18,6 +18,9 @@ const __dirname = path.dirname(__filename);
 // database connection
 import connectBD from "./db/connect.js";
 
+//import alarms
+import { AlarmHandler } from "./utils/alarmHandler.js";
+
 //routes import
 import authRouter from "./routes/authRoutes.js";
 import deviceRouter from "./routes/deviceRoutes.js";
@@ -28,6 +31,18 @@ import usersCleanJob from "./utils/UserCleanJob.js";
 //routes
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/device", deviceRouter);
+
+//call alarms
+AlarmHandler();
+
+//set alarm handler function
+const alarmRunOnTime = () => {
+  setInterval(() => {
+    AlarmHandler();
+  }, 10000);
+};
+
+alarmRunOnTime();
 
 // Define a route for the verify URL
 app.get("/verify?:id", (req, res) => {

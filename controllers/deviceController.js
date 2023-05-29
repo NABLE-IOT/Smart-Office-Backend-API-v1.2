@@ -1,4 +1,6 @@
 import Device from "../models/Device.js";
+import Alarm from "../models/Alarm.js";
+import { AlarmCheckAndSave } from "../utils/alarmHandler.js";
 
 const getAllDeviceData = async (req, res, next) => {
   try {
@@ -94,6 +96,9 @@ const updateDevice = async (req, res, next) => {
         runValidators: true,
       }
     );
+
+    //sent data to check alarm condition
+    AlarmCheckAndSave(updatedDevice);
 
     res.status(200).json({ device: updatedDevice });
   } catch (error) {

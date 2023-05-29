@@ -90,7 +90,7 @@ const login = async (req, res, next) => {
 const updateUser = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const { userName, password, role } = req.body;
+    const { userName, password, role, isEmail } = req.body;
 
     // Read data from database
     const user = await User.findOne({ _id: id }).select("+password");
@@ -119,6 +119,7 @@ const updateUser = async (req, res, next) => {
       password: pass,
       userName: userName,
       role: role,
+      isEmail: isEmail,
     };
 
     //update database

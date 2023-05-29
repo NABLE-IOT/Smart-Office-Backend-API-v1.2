@@ -39,6 +39,11 @@ const userSchema = new mongoose.Schema({
     default: false,
   },
 
+  isEmail: {
+    type: Boolean,
+    default: false,
+  },
+
   createdAt: {
     type: Number,
     require: true,
