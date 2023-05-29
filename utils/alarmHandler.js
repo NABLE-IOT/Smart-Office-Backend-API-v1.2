@@ -12,19 +12,16 @@ const AlarmCheckAndSave = async (deviceData) => {
 
     //assign value
     const unit = values[0].trim();
-    const minCriticalLevel = values[1];
-    const highCriticalLevel = values[2];
-    const minWarningLevel = values[3];
-    const highWarningLevel = values[4];
+    const minPoint = values[1];
+    const maxPoint = values[2];
+    const lowLevel = values[3];
+    const highLevel = values[4];
     const sensorValue = deviceData.deviceData;
 
     let alarmObj = {};
 
     //check o2 conditions
-    if (
-      deviceData.deviceName === "O2" &&
-      (sensorValue < minCriticalLevel || sensorValue > highCriticalLevel)
-    ) {
+    if (deviceData.deviceName === "O2" && sensorValue <= lowLevel) {
       // create data object
       alarmObj = new Alarm({
         deviceId: deviceData.deviceId,
@@ -33,17 +30,13 @@ const AlarmCheckAndSave = async (deviceData) => {
         deviceData: sensorValue,
         timestamp: Date.now(),
         unit: unit,
-        minCriticalLevel: minCriticalLevel,
-        highCriticalLevel: highCriticalLevel,
-        minWarningLevel: minWarningLevel,
-        highWarningLevel: highWarningLevel,
+        minPoint: minPoint,
+        maxPoint: maxPoint,
+        lowLevel: lowLevel,
+        highLevel: highLevel,
         alarmType: "Critical",
       });
-    } else if (
-      deviceData.deviceName === "O2" &&
-      ((sensorValue < minWarningLevel && sensorValue >= minCriticalLevel) ||
-        (sensorValue > highWarningLevel && sensorValue <= highCriticalLevel))
-    ) {
+    } else if (deviceData.deviceName === "O2" && sensorValue >= highLevel) {
       // create data object
       alarmObj = new Alarm({
         deviceId: deviceData.deviceId,
@@ -51,19 +44,34 @@ const AlarmCheckAndSave = async (deviceData) => {
         location: deviceData.location,
         deviceData: sensorValue,
         timestamp: Date.now(),
-        unit: values[0].trim(),
-        minCriticalLevel: minCriticalLevel,
-        highCriticalLevel: highCriticalLevel,
-        minWarningLevel: minWarningLevel,
-        highWarningLevel: highWarningLevel,
+        unit: unit,
+        minPoint: minPoint,
+        maxPoint: maxPoint,
+        lowLevel: lowLevel,
+        highLevel: highLevel,
         alarmType: "Warning",
       });
     }
 
     //check Temperature conditions
-    if (
+    if (deviceData.deviceName === "Temperature" && sensorValue >= highLevel) {
+      // create data object
+      alarmObj = new Alarm({
+        deviceId: deviceData.deviceId,
+        deviceName: deviceData.deviceName,
+        location: deviceData.location,
+        deviceData: sensorValue,
+        timestamp: Date.now(),
+        unit: unit,
+        minPoint: minPoint,
+        maxPoint: maxPoint,
+        lowLevel: lowLevel,
+        highLevel: highLevel,
+        alarmType: "Critical",
+      });
+    } else if (
       deviceData.deviceName === "Temperature" &&
-      (sensorValue < minCriticalLevel || sensorValue > highCriticalLevel)
+      sensorValue <= lowLevel
     ) {
       // create data object
       alarmObj = new Alarm({
@@ -73,37 +81,33 @@ const AlarmCheckAndSave = async (deviceData) => {
         deviceData: sensorValue,
         timestamp: Date.now(),
         unit: unit,
-        minCriticalLevel: minCriticalLevel,
-        highCriticalLevel: highCriticalLevel,
-        minWarningLevel: minWarningLevel,
-        highWarningLevel: highWarningLevel,
-        alarmType: "Critical",
-      });
-    } else if (
-      deviceData.deviceName === "Temperature" &&
-      sensorValue < highWarningLevel &&
-      sensorValue >= minCriticalLevel
-    ) {
-      // create data object
-      alarmObj = new Alarm({
-        deviceId: deviceData.deviceId,
-        deviceName: deviceData.deviceName,
-        location: deviceData.location,
-        deviceData: sensorValue,
-        timestamp: Date.now(),
-        unit: values[0].trim(),
-        minCriticalLevel: minCriticalLevel,
-        highCriticalLevel: highCriticalLevel,
-        minWarningLevel: minWarningLevel,
-        highWarningLevel: highWarningLevel,
+        minPoint: minPoint,
+        maxPoint: maxPoint,
+        lowLevel: lowLevel,
+        highLevel: highLevel,
         alarmType: "Warning",
       });
     }
 
     //check Humidity conditions
-    if (
+    if (deviceData.deviceName === "Humidity" && sensorValue <= lowLevel) {
+      // create data object
+      alarmObj = new Alarm({
+        deviceId: deviceData.deviceId,
+        deviceName: deviceData.deviceName,
+        location: deviceData.location,
+        deviceData: sensorValue,
+        timestamp: Date.now(),
+        unit: unit,
+        minPoint: minPoint,
+        maxPoint: maxPoint,
+        lowLevel: lowLevel,
+        highLevel: highLevel,
+        alarmType: "Critical",
+      });
+    } else if (
       deviceData.deviceName === "Humidity" &&
-      (sensorValue <= minCriticalLevel || sensorValue > highWarningLevel)
+      sensorValue >= highLevel
     ) {
       // create data object
       alarmObj = new Alarm({
@@ -113,29 +117,10 @@ const AlarmCheckAndSave = async (deviceData) => {
         deviceData: sensorValue,
         timestamp: Date.now(),
         unit: unit,
-        minCriticalLevel: minCriticalLevel,
-        highCriticalLevel: highCriticalLevel,
-        minWarningLevel: minWarningLevel,
-        highWarningLevel: highWarningLevel,
-        alarmType: "Critical",
-      });
-    } else if (
-      deviceData.deviceName === "Humidity" &&
-      sensorValue < minWarningLevel &&
-      sensorValue > minCriticalLevel
-    ) {
-      // create data object
-      alarmObj = new Alarm({
-        deviceId: deviceData.deviceId,
-        deviceName: deviceData.deviceName,
-        location: deviceData.location,
-        deviceData: sensorValue,
-        timestamp: Date.now(),
-        unit: values[0].trim(),
-        minCriticalLevel: minCriticalLevel,
-        highCriticalLevel: highCriticalLevel,
-        minWarningLevel: minWarningLevel,
-        highWarningLevel: highWarningLevel,
+        minPoint: minPoint,
+        maxPoint: maxPoint,
+        lowLevel: lowLevel,
+        highLevel: highLevel,
         alarmType: "Warning",
       });
     }

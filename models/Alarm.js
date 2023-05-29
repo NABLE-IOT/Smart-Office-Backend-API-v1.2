@@ -30,19 +30,19 @@ const AlarmSchema = new mongoose.Schema({
     type: String,
   },
 
-  minCriticalLevel: {
+  minPoint: {
     type: String,
   },
 
-  highCriticalLevel: {
+  maxPoint: {
     type: String,
   },
 
-  minWarningLevel: {
+  lowLevel: {
     type: String,
   },
 
-  highWarningLevel: {
+  highLevel: {
     type: String,
   },
 
